@@ -24,13 +24,12 @@ repositories {
 }
 
 dependencies {
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     // implementation("org.springframework.boot:spring-boot-starter-security")
     implementation ("org.mapstruct:mapstruct:1.5.5.Final")
     annotationProcessor ("org.mapstruct:mapstruct-processor:1.5.5.Final")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.liquibase:liquibase-core")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")

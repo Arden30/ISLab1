@@ -1,7 +1,7 @@
 package arden.java.islab1.api.dto.response;
 
-import arden.java.islab1.model.FuelType;
-import arden.java.islab1.model.VehicleType;
+import arden.java.islab1.model.vehicle.FuelType;
+import arden.java.islab1.model.vehicle.VehicleType;
 
 import java.util.Date;
 

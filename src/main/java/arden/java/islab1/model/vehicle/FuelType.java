@@ -1,4 +1,4 @@
-package arden.java.islab1.model;
+package arden.java.islab1.model.vehicle;
 
 public enum FuelType {
     KEROSENE,

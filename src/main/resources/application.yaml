@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ISLab1
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${HOST}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect

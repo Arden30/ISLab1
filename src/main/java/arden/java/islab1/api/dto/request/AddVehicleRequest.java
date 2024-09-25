@@ -1,7 +1,7 @@
 package arden.java.islab1.api.dto.request;
 
-import arden.java.islab1.model.FuelType;
-import arden.java.islab1.model.VehicleType;
+import arden.java.islab1.model.vehicle.FuelType;
+import arden.java.islab1.model.vehicle.VehicleType;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
