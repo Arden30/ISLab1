@@ -1,5 +1,6 @@
 package arden.java.islab1.model.user;
 
+import arden.java.islab1.model.vehicle.Vehicle;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,4 +28,6 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Vehicle> vehicles = new HashSet<>();
 }

@@ -52,9 +52,6 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
