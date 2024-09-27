@@ -32,9 +32,9 @@ public record AddVehicleRequest(
 ) {
 
     public record CoordinatesRequest(
-            @DecimalMin(value = "-118.0", message = "Minimum value of X is -118")
+            @Min(value = -118, message = "Minimum value of X is -118")
             double x,
-            @DecimalMin(value = "-652.0", message = "Minimum value of X is -652")
+            @Min(value = -652, message = "Minimum value of X is -652")
             double y
     ) {
     }

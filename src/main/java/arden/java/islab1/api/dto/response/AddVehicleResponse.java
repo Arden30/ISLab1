@@ -13,7 +13,7 @@ public record AddVehicleResponse(
         Date creationDate,
         VehicleType vehicleType,
         double enginePower,
-        int numOfWheels,
+        int numberOfWheels,
         double capacity,
         double distanceTravelled,
         double fuelConsumption,
