@@ -13,25 +13,21 @@ import arden.java.islab1.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
+
     private final VehicleMapper vehicleMapper;
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
     @Override
-    public VehicleResponse deleteVehicle(Long id) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
-        if (!vehicle.getUser().getId().equals(userService.getCurrentUser().getId())) {
-            throw new NotYourVehicleException("This vehicle belongs to another user, you can't delete this vehicle");
-        }
-
-        vehicleRepository.delete(vehicle);
-
-        return vehicleMapper.toResponse(vehicle);
+    public List<VehicleResponse> getAllVehicles() {
+        return vehicleRepository.findAll().stream().map(vehicleMapper::toResponse).toList();
     }
 
     @Override
@@ -60,5 +56,17 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicleToDB = vehicleRepository.save(vehicle);
 
         return vehicleMapper.toResponse(vehicleToDB);
+    }
+
+    @Override
+    public VehicleResponse deleteVehicle(Long id) {
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
+        if (!vehicle.getUser().getId().equals(userService.getCurrentUser().getId())) {
+            throw new NotYourVehicleException("This vehicle belongs to another user, you can't delete this vehicle");
+        }
+
+        vehicleRepository.delete(vehicle);
+
+        return vehicleMapper.toResponse(vehicle);
     }
 }
