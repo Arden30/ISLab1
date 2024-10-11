@@ -3,7 +3,6 @@ package arden.java.islab1.mapper;
 import arden.java.islab1.api.dto.request.AddVehicleRequest;
 import arden.java.islab1.api.dto.request.UpdateVehicleRequest;
 import arden.java.islab1.api.dto.response.VehicleResponse;
-import arden.java.islab1.model.vehicle.Coordinates;
 import arden.java.islab1.model.vehicle.Vehicle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +19,4 @@ public interface VehicleMapper {
     Vehicle toVehicle(AddVehicleRequest addVehicleRequest);
 
     Vehicle toVehicle(UpdateVehicleRequest updateVehicleRequest);
-
-//    Coordinates toCoordinates(AddVehicleRequest.CoordinatesRequest coordinatesRequest);
 }
