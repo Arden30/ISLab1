@@ -31,7 +31,7 @@ public class Vehicle {
     private Date creationDate;
 
     @Enumerated(EnumType.STRING)
-    private VehicleType type;
+    private VehicleType vehicleType;
 
     @Positive(message = "Engine power must be greater than 0")
     private double enginePower;
@@ -53,6 +53,9 @@ public class Vehicle {
     private FuelType fuelType;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(nullable = false, updatable = false)
+    private boolean couldBeChanged;
 }

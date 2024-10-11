@@ -28,7 +28,8 @@ public record AddVehicleRequest(
         @Positive(message = "fuel consumption is a positive value")
         Double fuelConsumption,
         @NotNull(message = "fuel type is mandatory to enter")
-        FuelType fuelType
+        FuelType fuelType,
+        boolean couldBeChanged
 ) {
 
     public record CoordinatesRequest(

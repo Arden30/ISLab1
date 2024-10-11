@@ -8,5 +8,7 @@ public interface UserService extends UserDetailsService {
 
     User saveUser(User user);
 
+    User getCurrentUser();
+
     User findUserById(Long id);
 }
