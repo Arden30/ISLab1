@@ -13,7 +13,7 @@ public class Coordinates {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @DecimalMin(value = "-118.0", message = "X must be greater than -118")
+    @Min(value = -118, message = "X must be greater than -118")
     private double x;
 
     @Min(value = -652, message = "Y must be greater than -652")

@@ -4,6 +4,7 @@ import arden.java.islab1.model.user.User;
 import arden.java.islab1.repository.UserRepository;
 import arden.java.islab1.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
-    }
-
-    public UserDetailsService userDetailsService() {
-        return this;
     }
 }

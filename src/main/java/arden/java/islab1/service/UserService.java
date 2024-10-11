@@ -9,6 +9,4 @@ public interface UserService extends UserDetailsService {
     User saveUser(User user);
 
     User findUserById(Long id);
-
-    UserDetailsService userDetailsService();
 }

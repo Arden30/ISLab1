@@ -2,12 +2,14 @@ package arden.java.islab1.service.impl;
 
 import arden.java.islab1.api.dto.request.SignInRequest;
 import arden.java.islab1.api.dto.request.SignUpRequest;
+import arden.java.islab1.api.dto.response.JwtResponse;
 import arden.java.islab1.api.dto.response.SignUpResponse;
 import arden.java.islab1.exception.UserExistsException;
 import arden.java.islab1.exception.WrongConfirmPasswordException;
 import arden.java.islab1.model.user.User;
 import arden.java.islab1.repository.UserRepository;
 import arden.java.islab1.service.AuthorizeService;
+import arden.java.islab1.service.JwtService;
 import arden.java.islab1.service.RoleService;
 import arden.java.islab1.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Override
     public SignUpResponse createUser(SignUpRequest signUpRequest) {
@@ -49,12 +52,14 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     }
 
     @Override
-    public User signIn(SignInRequest signInRequest) {
+    public JwtResponse signIn(SignInRequest signInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 signInRequest.username(),
                 signInRequest.password()
         ));
 
-        return userService.loadUserByUsername(signInRequest.username());
+        User user = userService.loadUserByUsername(signInRequest.username());
+
+        return new JwtResponse(jwtService.generateToken(user));
     }
 }

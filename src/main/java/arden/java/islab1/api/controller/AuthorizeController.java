@@ -2,10 +2,10 @@ package arden.java.islab1.api.controller;
 
 import arden.java.islab1.api.dto.request.SignInRequest;
 import arden.java.islab1.api.dto.request.SignUpRequest;
+import arden.java.islab1.api.dto.response.JwtResponse;
 import arden.java.islab1.api.dto.response.SignUpResponse;
 import arden.java.islab1.model.user.User;
 import arden.java.islab1.service.AuthorizeService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ public class AuthorizeController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<User> register(@RequestBody @Validated SignInRequest signInRequest) {
+    public ResponseEntity<JwtResponse> login(@RequestBody @Validated SignInRequest signInRequest) {
         return ResponseEntity.ok(authorizeService.signIn(signInRequest));
     }
 }
