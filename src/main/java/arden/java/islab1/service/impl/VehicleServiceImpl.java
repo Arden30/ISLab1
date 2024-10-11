@@ -31,6 +31,16 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public VehicleResponse getVehicleById(Long id) {
+        Optional<Vehicle> vehicleFromDB = vehicleRepository.findById(id);
+        if (vehicleFromDB.isEmpty()) {
+            throw new NoSuchVehicleException("There is no vehicle with id " + id);
+        }
+
+        return vehicleRepository.findById(id).map(vehicleMapper::toResponse).get();
+    }
+
+    @Override
     public VehicleResponse addVehicle(AddVehicleRequest request) {
         Vehicle vehicle = vehicleMapper.toVehicle(request);
         vehicle.setUser(userService.getCurrentUser());
