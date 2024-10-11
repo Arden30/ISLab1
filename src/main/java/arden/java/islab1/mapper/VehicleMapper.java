@@ -1,7 +1,8 @@
 package arden.java.islab1.mapper;
 
 import arden.java.islab1.api.dto.request.AddVehicleRequest;
-import arden.java.islab1.api.dto.response.AddVehicleResponse;
+import arden.java.islab1.api.dto.request.UpdateVehicleRequest;
+import arden.java.islab1.api.dto.response.VehicleResponse;
 import arden.java.islab1.model.vehicle.Coordinates;
 import arden.java.islab1.model.vehicle.Vehicle;
 import org.mapstruct.Mapper;
@@ -12,7 +13,13 @@ import org.mapstruct.MappingConstants;
 public interface VehicleMapper {
     @Mapping(source = "coordinates.x", target = "x")
     @Mapping(source = "coordinates.y", target = "y")
-    AddVehicleResponse toResponse(Vehicle request);
+    VehicleResponse toResponse(Vehicle request);
+
+    @Mapping(source = "coordinates.x", target = "coordinates.x")
+    @Mapping(source = "coordinates.y", target = "coordinates.y")
     Vehicle toVehicle(AddVehicleRequest addVehicleRequest);
-    Coordinates toCoordinates(AddVehicleRequest.CoordinatesRequest coordinatesRequest);
+
+    Vehicle toVehicle(UpdateVehicleRequest updateVehicleRequest);
+
+//    Coordinates toCoordinates(AddVehicleRequest.CoordinatesRequest coordinatesRequest);
 }
