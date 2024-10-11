@@ -1,7 +1,6 @@
 package arden.java.islab1.model.vehicle;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 

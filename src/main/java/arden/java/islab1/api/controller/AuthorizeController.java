@@ -4,7 +4,6 @@ import arden.java.islab1.api.dto.request.SignInRequest;
 import arden.java.islab1.api.dto.request.SignUpRequest;
 import arden.java.islab1.api.dto.response.JwtResponse;
 import arden.java.islab1.api.dto.response.SignUpResponse;
-import arden.java.islab1.model.user.User;
 import arden.java.islab1.service.AuthorizeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

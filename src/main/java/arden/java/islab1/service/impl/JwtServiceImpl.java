@@ -1,7 +1,6 @@
 package arden.java.islab1.service.impl;
 
 import arden.java.islab1.configuration.JwtConfig;
-import arden.java.islab1.model.user.Role;
 import arden.java.islab1.model.user.User;
 import arden.java.islab1.service.JwtService;
 import io.jsonwebtoken.Claims;
