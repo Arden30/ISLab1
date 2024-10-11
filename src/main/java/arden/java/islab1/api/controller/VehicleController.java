@@ -33,7 +33,7 @@ public class VehicleController {
         return ResponseEntity.ok().body(vehicleService.addVehicle(addVehicleRequest));
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<VehicleResponse> updateVehicle(@RequestBody @Valid UpdateVehicleRequest updateVehicleRequest) {
         return ResponseEntity.ok().body(vehicleService.updateVehicle(updateVehicleRequest));
     }
