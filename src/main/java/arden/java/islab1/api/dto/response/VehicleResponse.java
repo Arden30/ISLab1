@@ -17,6 +17,7 @@ public record VehicleResponse(
         double capacity,
         double distanceTravelled,
         double fuelConsumption,
-        FuelType fuelType
+        FuelType fuelType,
+        String username
 ) {
 }

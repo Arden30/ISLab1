@@ -6,10 +6,12 @@ import arden.java.islab1.api.dto.response.VehicleResponse;
 import arden.java.islab1.exception.exceptions.NoSuchVehicleException;
 import arden.java.islab1.exception.exceptions.NotYourVehicleException;
 import arden.java.islab1.mapper.VehicleMapper;
+import arden.java.islab1.model.user.User;
 import arden.java.islab1.model.vehicle.Coordinates;
 import arden.java.islab1.model.vehicle.Vehicle;
 import arden.java.islab1.repository.CoordinatesRepository;
 import arden.java.islab1.repository.VehicleRepository;
+import arden.java.islab1.service.ChangeService;
 import arden.java.islab1.service.UserService;
 import arden.java.islab1.service.VehicleService;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +28,18 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
     private final CoordinatesRepository coordinatesRepository;
+    private final ChangeService changeService;
 
     @Override
     public List<VehicleResponse> getAllVehicles() {
-        return vehicleRepository.findAll().stream().map(vehicleMapper::toResponse).toList();
+        String username = userService.getCurrentUser().getUsername();
+        return vehicleRepository.findAll().stream().map(vehicle -> vehicleMapper.toResponse(vehicle, username)).toList();
     }
 
     @Override
     public VehicleResponse getVehicleById(Long id) {
-        return vehicleRepository.findById(id).map(vehicleMapper::toResponse).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
+        String username = userService.getCurrentUser().getUsername();
+        return vehicleRepository.findById(id).map(vehicle -> vehicleMapper.toResponse(vehicle, username)).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
     }
 
     @Override
@@ -46,7 +51,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setUser(userService.getCurrentUser());
         Vehicle vehicleFromDB = vehicleRepository.save(vehicle);
 
-        return vehicleMapper.toResponse(vehicleFromDB);
+        return vehicleMapper.toResponse(vehicleFromDB, vehicle.getUser().getUsername());
     }
 
     @Override
@@ -59,13 +64,18 @@ public class VehicleServiceImpl implements VehicleService {
             throw new NotYourVehicleException("This vehicle belongs to another user, you can't update this vehicle");
         }
 
-        vehicleRepository.deleteById(vehicle.getId());
         vehicle.setId(vehicleFromDB.get().getId());
         vehicle.setCreationDate(vehicleFromDB.get().getCreationDate());
         vehicle.setUser(userService.getCurrentUser());
-        Vehicle vehicleToDB = vehicleRepository.save(vehicle);
+        vehicle.setChange(vehicleFromDB.get().getChange());
+        Optional<Coordinates> existingCoordinates = coordinatesRepository.findAll().stream().filter(coordinates -> coordinates.getX() == request.coordinates().x() && coordinates.getY() == request.coordinates().y()).findAny();
+        existingCoordinates.ifPresent(vehicle::setCoordinates);
 
-        return vehicleMapper.toResponse(vehicleToDB);
+        Vehicle vehicleToDB = vehicleRepository.save(vehicle);
+        User currentUser = userService.getCurrentUser();
+        changeService.addChangeToVehicle(vehicleToDB, currentUser);
+
+        return vehicleMapper.toResponse(vehicleToDB, vehicle.getUser().getUsername());
     }
 
     @Override
@@ -77,6 +87,6 @@ public class VehicleServiceImpl implements VehicleService {
 
         vehicleRepository.delete(vehicle);
 
-        return vehicleMapper.toResponse(vehicle);
+        return vehicleMapper.toResponse(vehicle, vehicle.getUser().getUsername());
     }
 }

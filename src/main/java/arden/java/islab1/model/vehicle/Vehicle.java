@@ -1,14 +1,18 @@
 package arden.java.islab1.model.vehicle;
 
+import arden.java.islab1.model.user.Change;
 import arden.java.islab1.model.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "is_lab1_vehicles")
@@ -58,4 +62,9 @@ public class Vehicle {
 
     @Column(nullable = false, updatable = false)
     private boolean couldBeChanged;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "vehicle_id")
+    @EqualsAndHashCode.Exclude
+    private Set<Change> change = new HashSet<>();
 }

@@ -10,12 +10,13 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface VehicleMapper {
-    @Mapping(source = "coordinates.x", target = "x")
-    @Mapping(source = "coordinates.y", target = "y")
-    VehicleResponse toResponse(Vehicle request);
+    @Mapping(source = "request.coordinates.x", target = "x")
+    @Mapping(source = "request.coordinates.y", target = "y")
+    @Mapping(source = "username", target = "username")
+    VehicleResponse toResponse(Vehicle request, String username);
 
-    @Mapping(source = "coordinates.x", target = "coordinates.x")
-    @Mapping(source = "coordinates.y", target = "coordinates.y")
+    @Mapping(source = "addVehicleRequest.coordinates.x", target = "coordinates.x")
+    @Mapping(source = "addVehicleRequest.coordinates.y", target = "coordinates.y")
     Vehicle toVehicle(AddVehicleRequest addVehicleRequest);
 
     Vehicle toVehicle(UpdateVehicleRequest updateVehicleRequest);
