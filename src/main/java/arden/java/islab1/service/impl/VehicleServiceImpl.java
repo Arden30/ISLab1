@@ -6,7 +6,9 @@ import arden.java.islab1.api.dto.response.VehicleResponse;
 import arden.java.islab1.exception.exceptions.NoSuchVehicleException;
 import arden.java.islab1.exception.exceptions.NotYourVehicleException;
 import arden.java.islab1.mapper.VehicleMapper;
+import arden.java.islab1.model.vehicle.Coordinates;
 import arden.java.islab1.model.vehicle.Vehicle;
+import arden.java.islab1.repository.CoordinatesRepository;
 import arden.java.islab1.repository.VehicleRepository;
 import arden.java.islab1.service.UserService;
 import arden.java.islab1.service.VehicleService;
@@ -23,6 +25,7 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleMapper vehicleMapper;
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
+    private final CoordinatesRepository coordinatesRepository;
 
     @Override
     public List<VehicleResponse> getAllVehicles() {
@@ -31,17 +34,15 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleResponse getVehicleById(Long id) {
-        Optional<Vehicle> vehicleFromDB = vehicleRepository.findById(id);
-        if (vehicleFromDB.isEmpty()) {
-            throw new NoSuchVehicleException("There is no vehicle with id " + id);
-        }
-
-        return vehicleRepository.findById(id).map(vehicleMapper::toResponse).get();
+        return vehicleRepository.findById(id).map(vehicleMapper::toResponse).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
     }
 
     @Override
     public VehicleResponse addVehicle(AddVehicleRequest request) {
         Vehicle vehicle = vehicleMapper.toVehicle(request);
+        Optional<Coordinates> existingCoordinates = coordinatesRepository.findAll().stream().filter(coordinates -> coordinates.getX() == request.coordinates().x() && coordinates.getY() == request.coordinates().y()).findAny();
+        existingCoordinates.ifPresent(vehicle::setCoordinates);
+
         vehicle.setUser(userService.getCurrentUser());
         Vehicle vehicleFromDB = vehicleRepository.save(vehicle);
 

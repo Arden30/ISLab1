@@ -21,7 +21,7 @@ public class Vehicle {
     @NotBlank(message = "Name cannot be null or empty")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coordinates_id", referencedColumnName = "id")
     @NotNull(message = "Coordinates cannot be null")
     private Coordinates coordinates;
