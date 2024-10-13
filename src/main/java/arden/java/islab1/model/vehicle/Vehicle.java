@@ -63,7 +63,7 @@ public class Vehicle {
     @Column(nullable = false, updatable = false)
     private boolean couldBeChanged;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "vehicle_id")
     @EqualsAndHashCode.Exclude
     private Set<Change> change = new HashSet<>();

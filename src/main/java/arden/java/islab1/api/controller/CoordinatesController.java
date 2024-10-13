@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/coordinates")
+@RequestMapping("/api/v1/coordinates")
 @RequiredArgsConstructor
 public class CoordinatesController {
     private final CoordinatesService coordinatesService;

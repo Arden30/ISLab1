@@ -1,7 +1,6 @@
 package arden.java.islab1.model.user;
 
 import arden.java.islab1.model.vehicle.Vehicle;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

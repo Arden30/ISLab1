@@ -9,9 +9,11 @@ import arden.java.islab1.mapper.VehicleMapper;
 import arden.java.islab1.model.user.User;
 import arden.java.islab1.model.vehicle.Coordinates;
 import arden.java.islab1.model.vehicle.Vehicle;
+import arden.java.islab1.repository.ChangeRepository;
 import arden.java.islab1.repository.CoordinatesRepository;
 import arden.java.islab1.repository.VehicleRepository;
 import arden.java.islab1.service.ChangeService;
+import arden.java.islab1.service.RoleService;
 import arden.java.islab1.service.UserService;
 import arden.java.islab1.service.VehicleService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class VehicleServiceImpl implements VehicleService {
     private final UserService userService;
     private final CoordinatesRepository coordinatesRepository;
     private final ChangeService changeService;
+    private final RoleService roleService;
+    private final ChangeRepository changeRepository;
 
     @Override
     public List<VehicleResponse> getAllVehicles() {
@@ -60,8 +64,10 @@ public class VehicleServiceImpl implements VehicleService {
         Optional<Vehicle> vehicleFromDB = vehicleRepository.findById(vehicle.getId());
         if (vehicleFromDB.isEmpty()) {
             throw new NoSuchVehicleException("There is no vehicle with id " + request.id());
-        } else if (!vehicleFromDB.get().getUser().getId().equals(userService.getCurrentUser().getId())) {
-            throw new NotYourVehicleException("This vehicle belongs to another user, you can't update this vehicle");
+        } else if (!userService.getCurrentUser().getRoles().contains(roleService.getAdminRole()) || !vehicleFromDB.get().isCouldBeChanged()) {
+            if (!vehicleFromDB.get().getUser().getId().equals(userService.getCurrentUser().getId())) {
+                throw new NotYourVehicleException("This vehicle belongs to another user, you can't update this vehicle");
+            }
         }
 
         vehicle.setId(vehicleFromDB.get().getId());
@@ -81,10 +87,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleResponse deleteVehicle(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
-        if (!vehicle.getUser().getId().equals(userService.getCurrentUser().getId())) {
-            throw new NotYourVehicleException("This vehicle belongs to another user, you can't delete this vehicle");
+        if (!userService.getCurrentUser().getRoles().contains(roleService.getAdminRole()) || !vehicle.isCouldBeChanged()) {
+            if (!vehicle.getUser().getId().equals(userService.getCurrentUser().getId())) {
+                throw new NotYourVehicleException("This vehicle belongs to another user, you can't delete this vehicle");
+            }
         }
 
+        changeRepository.deleteChangeByVehicleId(vehicle.getId());
         vehicleRepository.delete(vehicle);
 
         return vehicleMapper.toResponse(vehicle, vehicle.getUser().getUsername());

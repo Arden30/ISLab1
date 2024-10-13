@@ -1,7 +1,6 @@
 package arden.java.islab1.api.controller;
 
 import arden.java.islab1.api.dto.response.ChangeResponse;
-import arden.java.islab1.model.user.Change;
 import arden.java.islab1.service.ChangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/changes")
+@RequestMapping("/api/v1/changes")
 @RequiredArgsConstructor
 public class ChangeController {
     private final ChangeService changeService;
