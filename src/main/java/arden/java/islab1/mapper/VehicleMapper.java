@@ -13,7 +13,8 @@ public interface VehicleMapper {
     @Mapping(source = "request.coordinates.x", target = "x")
     @Mapping(source = "request.coordinates.y", target = "y")
     @Mapping(source = "username", target = "username")
-    VehicleResponse toResponse(Vehicle request, String username);
+    @Mapping(source = "couldBeChanged", target = "couldBeChanged")
+    VehicleResponse toResponse(Vehicle request, String username, Boolean couldBeChanged);
 
     @Mapping(source = "addVehicleRequest.coordinates.x", target = "coordinates.x")
     @Mapping(source = "addVehicleRequest.coordinates.y", target = "coordinates.y")

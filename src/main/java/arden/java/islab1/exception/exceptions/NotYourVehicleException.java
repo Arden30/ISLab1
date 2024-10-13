@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class NotYourVehicleException extends GeneralException {
-    HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+    HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
 
     public NotYourVehicleException(String message) {
         super(message);

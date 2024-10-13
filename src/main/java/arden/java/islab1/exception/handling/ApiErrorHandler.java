@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -42,6 +43,13 @@ public class ApiErrorHandler {
         );
 
         return ResponseEntity.status(exception.getHttpStatus()).body(apiErrorResponse);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoSuchElementException(NoSuchElementException exception) {
+        ApiErrorResponse apiErrorResponse = buildDefaultErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiErrorResponse);
     }
 
     private ApiErrorResponse buildDefaultErrorResponse(

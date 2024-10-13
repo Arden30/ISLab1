@@ -18,6 +18,7 @@ public record VehicleResponse(
         double distanceTravelled,
         double fuelConsumption,
         FuelType fuelType,
-        String username
+        String username,
+        Boolean couldBeChanged
 ) {
 }

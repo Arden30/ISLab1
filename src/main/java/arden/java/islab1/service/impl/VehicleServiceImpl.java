@@ -37,13 +37,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleResponse> getAllVehicles() {
         String username = userService.getCurrentUser().getUsername();
-        return vehicleRepository.findAll().stream().map(vehicle -> vehicleMapper.toResponse(vehicle, username)).toList();
+        return vehicleRepository.findAll().stream().map(vehicle -> vehicleMapper.toResponse(vehicle, username, vehicle.isCouldBeChanged())).toList();
     }
 
     @Override
     public VehicleResponse getVehicleById(Long id) {
         String username = userService.getCurrentUser().getUsername();
-        return vehicleRepository.findById(id).map(vehicle -> vehicleMapper.toResponse(vehicle, username)).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
+        return vehicleRepository.findById(id).map(vehicle -> vehicleMapper.toResponse(vehicle, username, vehicle.isCouldBeChanged())).orElseThrow(() -> new NoSuchVehicleException("There is no vehicle with id " + id));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setUser(userService.getCurrentUser());
         Vehicle vehicleFromDB = vehicleRepository.save(vehicle);
 
-        return vehicleMapper.toResponse(vehicleFromDB, vehicle.getUser().getUsername());
+        return vehicleMapper.toResponse(vehicleFromDB, vehicle.getUser().getUsername(), vehicle.isCouldBeChanged());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class VehicleServiceImpl implements VehicleService {
         User currentUser = userService.getCurrentUser();
         changeService.addChangeToVehicle(vehicleToDB, currentUser);
 
-        return vehicleMapper.toResponse(vehicleToDB, vehicle.getUser().getUsername());
+        return vehicleMapper.toResponse(vehicleToDB, vehicle.getUser().getUsername(), vehicle.isCouldBeChanged());
     }
 
     @Override
@@ -96,6 +96,6 @@ public class VehicleServiceImpl implements VehicleService {
         changeRepository.deleteChangeByVehicleId(vehicle.getId());
         vehicleRepository.delete(vehicle);
 
-        return vehicleMapper.toResponse(vehicle, vehicle.getUser().getUsername());
+        return vehicleMapper.toResponse(vehicle, vehicle.getUser().getUsername(), vehicle.isCouldBeChanged());
     }
 }
