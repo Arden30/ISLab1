@@ -2,11 +2,13 @@ package arden.java.islab1.model.vehicle;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "is_lab1_coordinates")
-@Data
+@Getter
+@Setter
 public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +18,6 @@ public class Coordinates {
     private double x;
 
     @Min(value = -652, message = "Y must be greater than -652")
-    private long y;
+    private double y;
 }
 

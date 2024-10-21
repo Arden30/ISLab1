@@ -30,14 +30,4 @@ public record AddVehicleRequest(
         @NotNull(message = "fuel type is mandatory to enter")
         FuelType fuelType,
         boolean couldBeChanged
-) {
-
-    public record CoordinatesRequest(
-            @Min(value = -118, message = "Minimum value of X is -118")
-            double x,
-            @Min(value = -652, message = "Minimum value of X is -652")
-            double y
-    ) {
-    }
-
-}
+) {}

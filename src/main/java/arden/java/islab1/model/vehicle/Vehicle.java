@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -16,7 +16,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "is_lab1_vehicles")
-@Data
+@Getter
+@Setter
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,7 @@ public class Vehicle {
     @NotBlank(message = "Name cannot be null or empty")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "coordinates_id", referencedColumnName = "id")
     @NotNull(message = "Coordinates cannot be null")
     private Coordinates coordinates;
@@ -65,6 +66,5 @@ public class Vehicle {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "vehicle_id")
-    @EqualsAndHashCode.Exclude
     private Set<Change> change = new HashSet<>();
 }

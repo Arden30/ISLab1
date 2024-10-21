@@ -69,6 +69,7 @@ public class VehicleServiceImpl implements VehicleService {
                 throw new NotYourVehicleException("This vehicle belongs to another user, you can't update this vehicle");
             }
         }
+        Coordinates coordinatesFromDB = vehicleFromDB.get().getCoordinates();
 
         vehicle.setId(vehicleFromDB.get().getId());
         vehicle.setCreationDate(vehicleFromDB.get().getCreationDate());
@@ -78,6 +79,10 @@ public class VehicleServiceImpl implements VehicleService {
         existingCoordinates.ifPresent(vehicle::setCoordinates);
 
         Vehicle vehicleToDB = vehicleRepository.save(vehicle);
+        if (vehicleRepository.findAll().stream().filter(v -> v.getCoordinates().equals(coordinatesFromDB)).toList().isEmpty()) {
+            coordinatesRepository.delete(coordinatesFromDB);
+        }
+
         User currentUser = userService.getCurrentUser();
         changeService.addChangeToVehicle(vehicleToDB, currentUser);
 
@@ -95,6 +100,9 @@ public class VehicleServiceImpl implements VehicleService {
 
         changeRepository.deleteChangeByVehicleId(vehicle.getId());
         vehicleRepository.delete(vehicle);
+        if (vehicleRepository.findAll().stream().filter(v -> v.getCoordinates().equals(vehicle.getCoordinates())).toList().isEmpty()) {
+            coordinatesRepository.delete(vehicle.getCoordinates());
+        }
 
         return vehicleMapper.toResponse(vehicle, vehicle.getUser().getUsername(), vehicle.isCouldBeChanged());
     }

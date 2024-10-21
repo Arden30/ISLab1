@@ -2,11 +2,13 @@ package arden.java.islab1.model.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "is_lab1_admin_requests")
-@Data
+@Getter
+@Setter
 public class AdminRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

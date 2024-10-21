@@ -20,5 +20,7 @@ public interface VehicleMapper {
     @Mapping(source = "addVehicleRequest.coordinates.y", target = "coordinates.y")
     Vehicle toVehicle(AddVehicleRequest addVehicleRequest);
 
+    @Mapping(source = "updateVehicleRequest.coordinates.x", target = "coordinates.x")
+    @Mapping(source = "updateVehicleRequest.coordinates.y", target = "coordinates.y")
     Vehicle toVehicle(UpdateVehicleRequest updateVehicleRequest);
 }

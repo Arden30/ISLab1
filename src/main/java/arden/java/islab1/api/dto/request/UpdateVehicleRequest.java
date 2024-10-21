@@ -15,7 +15,7 @@ public record UpdateVehicleRequest(
         String name,
         @NotNull
         @Valid
-        AddVehicleRequest.CoordinatesRequest coordinates,
+        CoordinatesRequest coordinates,
         @Nullable
         VehicleType vehicleType,
         @Positive(message = "engine power is a positive value")
